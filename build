@@ -1,3 +1,0 @@
-#!/bin/bash
-echo "Building Orbit Stabilization Application"
-g++ -std=c++11 modules/gyro.cpp modules/light-sensor.cpp orbit-stabilization.cpp -o orbit-stabilization
