@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "Building Orbit Stabilization Application"
+g++ orbit-stabilization.cpp -o orbit-stabilization
