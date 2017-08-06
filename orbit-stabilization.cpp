@@ -15,6 +15,7 @@
 */
 
 #include "modules/light-sensor.h"
+#include "modules/gyro.h"
 #include <iostream>
 #include <string>
 #include <unistd.h>
@@ -40,15 +41,31 @@ int main(int argc, char *argv[]){
 	/*
 	 * Initialize sensors
 	*/
-	LightSensor lightSensor(bus1, 0x07);
+	LightSensor lightSensor1(bus1, 0x00);
+	LightSensor lightSensor2(bus1, 0x10);
+	LightSensor lightSensor3(bus1, 0x20);
+	LightSensor lightSensor4(bus1, 0x30);
+	LightSensor lightSensor5(bus1, 0x40);
+	LightSensor lightSensor6(bus1, 0x50);
+	LightSensor lightSensor7(bus1, 0x60);
+	LightSensor lightSensor8(bus1, 0x70);
+	Gyro gyro(bus1);
 
 	/*
 	 * Main loop
 	*/
-	std::chrono::seconds interval(1) ; // 10 seconds
+	std::chrono::milliseconds interval(1000);
 	while (1) {
-		lightSensor.getData();
-		std::this_thread::sleep_for( interval ) ;
+		gyro.getData();
+		// lightSensor1.getData();
+		// lightSensor2.getData();
+		// lightSensor3.getData();
+		// lightSensor4.getData();
+		// lightSensor5.getData();
+		// lightSensor6.getData();
+		// lightSensor7.getData();
+		// lightSensor8.getData();
+		//std::this_thread::sleep_for( interval ) ;
 	}
 
 	return 0;

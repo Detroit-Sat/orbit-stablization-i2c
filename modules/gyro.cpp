@@ -1,7 +1,5 @@
 /*
- * light-sensors.cpp
- *
- * 8 light sensors hooked to a ADS7828 on a i2c bus
+ * gyro.cpp
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "light-sensor.h"
+#include "gyro.h"
 #include <iostream>
 #include <string>
 #include <cstring>
@@ -26,33 +24,25 @@
 #include <sys/ioctl.h>//Needed for I2C port
 
 #include <linux/i2c-dev.h>//Needed for I2C port
-LightSensor::LightSensor(char *bus, int channel)
+Gyro::Gyro(char *bus)
 {
-  printf("%s %d\n","Initializing Light Sensor", (channel>>4)+1);
+  printf("%s \n","Initializing Gyro");
   filename = bus;
-  chan = channel;
 };
 
-unsigned char LightSensor::getData(){
+unsigned char Gyro::getData(){
 	if ((file_i2c = open(filename, O_RDWR)) < 0)
 	{
 		//ERROR HANDLING: you can check errno to see what went wrong
 		printf("Failed to open the i2c bus");
 	}
 
-	if (ioctl(file_i2c, I2C_SLAVE, 0x48) < 0)
+	if (ioctl(file_i2c, I2C_SLAVE, 0x68) < 0)
 	{
 		printf("Failed to acquire bus access and/or talk to slave.\n");
     sleep(1);
 		//ERROR HANDLING; you can check errno to see what went wrong
 	}
-
-	// Send command byte
-	// channel-0 selected, A/D Converter ON(0x04)
-	char config[1] = {0x04||chan};
-	write(file_i2c, config, 1);
-	//sleep(1);
-
 	// Read 2 bytes of data
 	// raw_adc msb, raw_adc lsb
 	char data[3] = {0};
@@ -67,7 +57,7 @@ unsigned char LightSensor::getData(){
 		int raw_adc = ((data[0] & 0x0F) * 256 + data[1]);
 
 		// Output data to screen
-		printf("Raw value from Sensor %d : %d \n", (chan>>4)+1, raw_adc);
+		printf("Raw value from Gyro %d \n", raw_adc);
   }
   close (file_i2c);
 	return 0;

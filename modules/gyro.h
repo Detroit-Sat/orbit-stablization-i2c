@@ -1,4 +1,4 @@
-class LightSensor
+class Gyro
 {
  private:
   int file_i2c;
@@ -7,6 +7,6 @@ class LightSensor
 	char buffer[60] = {0};
 	char *filename;
  public:
-  LightSensor(char* bus, int channel);
+  Gyro(char* bus);
   unsigned char getData();
 };
